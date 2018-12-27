@@ -1,0 +1,5 @@
+docker build -t grossnik/hdp-hadoop .
+
+docker run -d -it --hostname=hadoop01.docker --name=hadoop01.docker --network hadoop-net grossnik/hdp-hadoop bash
+
+docker exec   -it hadoop01.docker bash

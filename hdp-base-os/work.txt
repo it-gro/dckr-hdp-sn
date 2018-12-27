@@ -1,0 +1,20 @@
+docker build -t grossnik/hdp-base-os .
+
+docker run -d -it --hostname=hdpbase01 --name=hdpbase01 --network hadoop-net grossnik/hdp-base-os
+docker exec   -it hdpbase01 bash
+docker stop hdpbase01
+
+export HADOOP_VERSION=2.9.2
+export HADOOP_URL=https://www-eu.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+
+curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz
+curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc
+gpg --verify /tmp/hadoop.tar.gz.asc 
+tar -xvf /tmp/hadoop.tar.gz -C /opt/ 
+
+rm /tmp/hadoop.tar.gz* 
+ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop 
+cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml 
+mkdir /opt/hadoop-$HADOOP_VERSION/logs 
+mkdir /hadoop-data 
+rm -Rf /opt/hadoop-$HADOOP_VERSION/share/doc/hadoop

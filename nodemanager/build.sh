@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t uhopper/hadoop-nodemanager .
+docker build -t grossnik/uhop-nodemanager .
